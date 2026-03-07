@@ -57,25 +57,14 @@ def parse_thai(text_temp: str):
                 else:
                     for c in text:
                         tone.append(c)
+            elif text == 'เาะ':
+                spelling.append(text)
+            elif text[-1] == "ะ":
+                spelling.append(text[:-1])
+                spelling.append("ะ")
             else:
                 for c in text:
                     spelling.append(c)
-                # อื่นๆ
-                # spelling_tmp = ""
-                # for c in text:
-                #     spelling_tmp += c
-                #     if classify(spelling_tmp) == "Spelling":
-                #         spelling = [spelling_tmp]
-                #         text = text[len(spelling_tmp):]
-
-                #         if text == "ะ":
-                #             if spelling_tmp == "เา":
-                #                 spelling = [spelling_tmp + "ะ"]
-                #                 break
-                #             spelling.append(text)
-                #         else:
-                #             last_c = [text]
-                #         break
 
     else:
         for c in text:
@@ -94,7 +83,7 @@ def parse_thai(text_temp: str):
                 if text == "ะ":
                     spelling.append(text)
                 else:
-                    last_c = [text]
+                    last_c = [text] if text else []
                 break
 
     return character, spelling, tone, last_c
@@ -108,7 +97,7 @@ def braille_translate(text: str):
     if not spelling:
         return text
     elif classify(spelling[0]) == "Vpre":
-        return spelling + character + tone + last_c
+        return text
     elif spelling == ['เอ'] and last_c:
         return text
     elif spelling == ['เิ']:
